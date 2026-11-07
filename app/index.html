@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+    <title>报价计算器</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="renderer.js" defer></script>
+  </head>
+  <body>
+    <main>
+      <header>
+        <span class="eyebrow">DESKTOP / 001</span>
+        <span class="status"><i></i>离线计算</span>
+      </header>
+      <section class="intro">
+        <h1>算一笔明白账。</h1>
+        <p>填入单价与数量，算出优惠后的报价。</p>
+      </section>
+      <form novalidate>
+        <div class="fields">
+          <label>单价 <span>元</span><input name="unitPrice" inputmode="decimal" value="19.90" autocomplete="off"></label>
+          <label>数量 <span>件</span><input name="quantity" type="number" min="1" max="10000" step="1" value="3"></label>
+          <label>优惠比例 <span>%</span><input name="discountPercent" type="number" min="0" max="100" step="1" value="10"></label>
+        </div>
+        <div class="form-footer"><p>例如：优惠 10%，即按九折计算。</p><button type="submit">计算报价 <span aria-hidden="true">↗</span></button></div>
+      </form>
+      <p class="error" role="alert" hidden></p>
+      <section id="result" aria-label="计算结果" aria-live="polite" hidden>
+        <div class="breakdown"><p>商品金额 <span id="subtotal"></span></p><p>优惠金额 <span id="discount"></span></p></div>
+        <div class="total"><span>应付金额</span><output id="total"></output><small>人民币 · 四舍五入至分</small></div>
+      </section>
+      <footer><span>报价计算器</span><span>所有计算均在本机完成</span></footer>
+    </main>
+  </body>
+</html>

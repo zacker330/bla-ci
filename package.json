@@ -1,0 +1,23 @@
+{
+  "name": "bla-ci",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A tested Electron CI example with BLA ASAR hardening",
+  "license": "MIT",
+  "type": "module",
+  "engines": { "node": "24.x" },
+  "scripts": {
+    "start": "electron app",
+    "test": "node --test tests/quote.test.cjs",
+    "build": "node scripts/build.mjs",
+    "test:e2e": "playwright test",
+    "ci": "npm test && npm run build && npm run test:e2e"
+  },
+  "devDependencies": {
+    "@electron/asar": "4.3.1",
+    "@electron/packager": "20.3.0",
+    "@playwright/test": "1.65.0",
+    "bla-agents": "3.0.1",
+    "electron": "45.2.3"
+  }
+}
