@@ -123,7 +123,7 @@ for (const [name, asar] of Object.entries({ original, hardened })) {
 
 const archive = path.join(dist, 'artifacts', `bla-ci-demo-${process.platform}-${process.arch}.tar.gz`);
 const protectedDirectory = path.resolve(root, variants.hardened.directory);
-const tar = spawnSync('tar', ['-czf', archive, '-C', path.dirname(protectedDirectory), path.basename(protectedDirectory)], { encoding: 'utf8', timeout: 120000 });
+const tar = spawnSync('tar', ['-czf', relative(archive), '-C', relative(path.dirname(protectedDirectory)), path.basename(protectedDirectory)], { cwd: root, encoding: 'utf8', timeout: 120000 });
 if (tar.error || tar.status !== 0) throw new Error(`App archiving failed: ${tar.error?.message ?? tar.stderr}`);
 
 const revision = spawnSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8' });
