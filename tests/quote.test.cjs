@@ -25,19 +25,19 @@ test('keeps the maximum supported quote within exact integer arithmetic', () => 
 
 test('rejects invalid prices without silently rounding the input', () => {
   for (const unitPrice of ['', '-1', '1.001', '1e2', 'Infinity', '1000000', '01', 19.9, null]) {
-    assert.throws(() => calculateQuote({ unitPrice, quantity: 1, discountPercent: 0 }), /单价/);
+    assert.throws(() => calculateQuote({ unitPrice, quantity: 1, discountPercent: 0 }), { code: 'INVALID_PRICE' });
   }
 });
 
 test('validates quantity in the main-process calculation boundary', () => {
   for (const quantity of [0, -1, 1.5, 10001, NaN, Infinity, '3', null]) {
-    assert.throws(() => calculateQuote({ unitPrice: '1.00', quantity, discountPercent: 0 }), /数量/);
+    assert.throws(() => calculateQuote({ unitPrice: '1.00', quantity, discountPercent: 0 }), { code: 'INVALID_QUANTITY' });
   }
 });
 
 test('validates the discount and rejects a missing request', () => {
   for (const discountPercent of [-1, 101, 0.5, NaN, '10', null]) {
-    assert.throws(() => calculateQuote({ unitPrice: '1.00', quantity: 1, discountPercent }), /优惠/);
+    assert.throws(() => calculateQuote({ unitPrice: '1.00', quantity: 1, discountPercent }), { code: 'INVALID_DISCOUNT' });
   }
-  assert.throws(() => calculateQuote(), /单价/);
+  assert.throws(() => calculateQuote(), { code: 'INVALID_PRICE' });
 });

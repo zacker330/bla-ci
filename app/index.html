@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
-    <title>报价计算器</title>
+    <title>Quote calculator</title>
     <link rel="stylesheet" href="style.css">
     <script src="renderer.js" defer></script>
   </head>
@@ -12,26 +12,29 @@
     <main>
       <header>
         <span class="eyebrow">DESKTOP / 001</span>
-        <span class="status"><i></i>离线计算</span>
+        <div class="header-controls">
+          <span class="status"><i></i><span data-i18n="offline">Offline</span></span>
+          <label class="language-switcher"><span data-i18n="language">Language</span><select id="language"><option value="en">English</option><option value="zh-CN">中文</option></select></label>
+        </div>
       </header>
       <section class="intro">
-        <h1>算一笔明白账。</h1>
-        <p>填入单价与数量，算出优惠后的报价。</p>
+        <h1 data-i18n="title">Quote calculator</h1>
+        <p data-i18n="intro">Enter a unit price and quantity to calculate your discounted quote.</p>
       </section>
       <form novalidate>
         <div class="fields">
-          <label>单价 <span>元</span><input name="unitPrice" inputmode="decimal" value="19.90" autocomplete="off"></label>
-          <label>数量 <span>件</span><input name="quantity" type="number" min="1" max="10000" step="1" value="3"></label>
-          <label>优惠比例 <span>%</span><input name="discountPercent" type="number" min="0" max="100" step="1" value="10"></label>
+          <label><span data-i18n="unitPrice">Unit price</span> <span class="unit" data-i18n="currencyUnit">CNY</span><input name="unitPrice" inputmode="decimal" value="19.90" autocomplete="off"></label>
+          <label><span data-i18n="quantity">Quantity</span> <span class="unit" data-i18n="items">items</span><input name="quantity" type="number" min="1" max="10000" step="1" value="3"></label>
+          <label><span data-i18n="discountPercent">Discount</span> <span class="unit">%</span><input name="discountPercent" type="number" min="0" max="100" step="1" value="10"></label>
         </div>
-        <div class="form-footer"><p>例如：优惠 10%，即按九折计算。</p><button type="submit">计算报价 <span aria-hidden="true">↗</span></button></div>
+        <div class="form-footer"><p data-i18n="hint">10% off means you pay 90%.</p><button type="submit"><span data-i18n="calculate">Calculate quote</span><span class="button-arrow" aria-hidden="true">↗</span></button></div>
       </form>
       <p class="error" role="alert" hidden></p>
-      <section id="result" aria-label="计算结果" aria-live="polite" hidden>
-        <div class="breakdown"><p>商品金额 <span id="subtotal"></span></p><p>优惠金额 <span id="discount"></span></p></div>
-        <div class="total"><span>应付金额</span><output id="total"></output><small>人民币 · 四舍五入至分</small></div>
+      <section id="result" aria-label="Quote results" aria-live="polite" hidden>
+        <div class="breakdown"><p><span data-i18n="subtotal">Subtotal</span><span id="subtotal"></span></p><p><span data-i18n="discountAmount">Discount amount</span><span id="discount"></span></p></div>
+        <div class="total"><span data-i18n="total">Total due</span><output id="total"></output><small data-i18n="rounding">Chinese yuan · Rounded to the nearest cent</small></div>
       </section>
-      <footer><span>报价计算器</span><span>所有计算均在本机完成</span></footer>
+      <footer><span data-i18n="title">Quote calculator</span><span data-i18n="localOnly">All calculations stay on this device</span></footer>
     </main>
   </body>
 </html>

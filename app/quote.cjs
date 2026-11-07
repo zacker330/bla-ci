@@ -1,12 +1,20 @@
+class QuoteValidationError extends Error {
+  constructor(code, message) {
+    super(message);
+    this.name = 'QuoteValidationError';
+    this.code = code;
+  }
+}
+
 function calculateQuote({ unitPrice, quantity, discountPercent } = {}) {
   if (typeof unitPrice !== 'string' || !/^(0|[1-9]\d{0,5})(\.\d{1,2})?$/.test(unitPrice)) {
-    throw new Error('单价须为 0 至 999999.99 元，最多两位小数');
+    throw new QuoteValidationError('INVALID_PRICE', 'Unit price must be between CNY 0 and 999999.99, with at most two decimal places.');
   }
   if (!Number.isInteger(quantity) || quantity < 1 || quantity > 10000) {
-    throw new Error('数量须为 1 至 10000 的整数');
+    throw new QuoteValidationError('INVALID_QUANTITY', 'Quantity must be an integer between 1 and 10000.');
   }
   if (!Number.isInteger(discountPercent) || discountPercent < 0 || discountPercent > 100) {
-    throw new Error('优惠比例须为 0 至 100 的整数');
+    throw new QuoteValidationError('INVALID_DISCOUNT', 'Discount must be an integer between 0 and 100.');
   }
 
   const [yuan, fraction = ''] = unitPrice.split('.');
@@ -16,4 +24,4 @@ function calculateQuote({ unitPrice, quantity, discountPercent } = {}) {
   return { subtotalCents, discountCents: subtotalCents - totalCents, totalCents };
 }
 
-module.exports = { calculateQuote };
+module.exports = { calculateQuote, QuoteValidationError };

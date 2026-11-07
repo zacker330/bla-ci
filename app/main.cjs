@@ -1,7 +1,7 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('node:path');
 const { pathToFileURL } = require('node:url');
-const { calculateQuote } = require('./quote.cjs');
+const { calculateQuote, QuoteValidationError } = require('./quote.cjs');
 
 const pagePath = path.join(__dirname, 'index.html');
 const pageURL = pathToFileURL(pagePath).href;
@@ -32,12 +32,12 @@ function createWindow() {
 app.whenReady().then(() => {
   ipcMain.handle('quote:calculate', (event, input) => {
     if (event.senderFrame?.url !== pageURL) {
-      return { ok: false, error: '请求来源无效' };
+      return { ok: false, error: 'INVALID_SOURCE' };
     }
     try {
       return { ok: true, quote: calculateQuote(input) };
     } catch (error) {
-      return { ok: false, error: error.message };
+      return { ok: false, error: error instanceof QuoteValidationError ? error.code : 'CALCULATION_FAILED' };
     }
   });
   createWindow();
