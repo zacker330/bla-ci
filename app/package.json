@@ -2,6 +2,8 @@
   "name": "bla-ci-demo",
   "productName": "BLA CI Demo",
   "version": "1.0.0",
+  "author": "Zacker330",
+  "description": "Offline quote calculator for the Electron BLA CI example",
   "private": true,
   "main": "main.cjs"
 }
